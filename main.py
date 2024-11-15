@@ -36,14 +36,14 @@ async def get_user(db: db_dependency):
     users = db.query(models.User).all()
     return users
 
-# @app.delete('/users/delete/{user_id}', status_code=status.HTTP_204_NO_CONTENT)
-# async def delete_user(user_id: int, db: db_dependency):
-#     user = db.query(models.User).filter(models.User.id == user_id).first()
-#     if not user:
-#         raise HTTPException(status_code=404, detail="User not found")
-#     db.delete(user)
-#     db.commit()
-#     return {"message": "User deleted successfully"}
+@app.delete('/users/delete/{user_id}', status_code=status.HTTP_204_NO_CONTENT)
+async def delete_user(user_id: int, db: db_dependency):
+    user = db.query(models.User).filter(models.User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    db.delete(user)
+    db.commit()
+    return {"message": "User deleted successfully"}
 
 # @app.put('/users/update/{user_id}', status_code=status.HTTP_200_OK)
 # async def update_user(user_id: int, user_update: UserUpdate, db: db_dependency):
