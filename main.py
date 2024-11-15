@@ -1,35 +1,35 @@
-# from fastapi import FastAPI, HTTPException, Depends, status
-# from pydantic import BaseModel
-# from typing import Annotated
-# import models
-# from database import engine, SessionLocal
-# from sqlalchemy.orm import Session
-# from mangum import Mangum
+from fastapi import FastAPI, HTTPException, Depends, status
+from pydantic import BaseModel
+from typing import Annotated
+import models
+from database import engine, SessionLocal
+from sqlalchemy.orm import Session
 
-# app = FastAPI()
-# models.Base.metadata.create_all(bind=engine)
 
-# class UserBase(BaseModel):
-# 	username: str
+app = FastAPI()
+models.Base.metadata.create_all(bind=engine)
+
+class UserBase(BaseModel):
+	username: str
 
 # class UserUpdate(BaseModel):
 #     username: str
 	
-# def get_db():
-# 	db= SessionLocal()
-# 	try: 
-# 		yield db
-# 	finally:
-# 		db.close()
+def get_db():
+	db= SessionLocal()
+	try: 
+		yield db
+	finally:
+		db.close()
 
-# db_dependency = Annotated[Session, Depends(get_db)]
+db_dependency = Annotated[Session, Depends(get_db)]
 
-# @app.post('/users/create', status_code=status.HTTP_201_CREATED)
-# async def create_user(user: UserBase, db: db_dependency):
-#     db_user = models.User(**user.dict())
-#     db.add(db_user)
-#     db.commit()
-#     return db_user
+@app.post('/users/create', status_code=status.HTTP_201_CREATED)
+async def create_user(user: UserBase, db: db_dependency):
+    db_user = models.User(**user.dict())
+    db.add(db_user)
+    db.commit()
+    return db_user
 
 # @app.get('/users/get', status_code=status.HTTP_200_OK)
 # async def get_user(db: db_dependency):
@@ -59,12 +59,3 @@
 # def shutdown():
 #     SessionLocal.remove()
 
-# handler = Mangum(app)
-
-from fastapi import FastAPI
-
-app = FastAPI()
-
-@app.get("/")
-def read_root():
-    return {"message": "Hello, World!"}
