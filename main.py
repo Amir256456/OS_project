@@ -31,10 +31,10 @@ async def create_user(user: UserBase, db: db_dependency):
     db.commit()
     return db_user
 
-# @app.get('/users/get', status_code=status.HTTP_200_OK)
-# async def get_user(db: db_dependency):
-#     users = db.query(models.User).all()
-#     return users
+@app.get('/users/get', status_code=status.HTTP_200_OK)
+async def get_user(db: db_dependency):
+    users = db.query(models.User).all()
+    return users
 
 # @app.delete('/users/delete/{user_id}', status_code=status.HTTP_204_NO_CONTENT)
 # async def delete_user(user_id: int, db: db_dependency):
