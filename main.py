@@ -12,9 +12,6 @@ models.Base.metadata.create_all(bind=engine)
 class UserBase(BaseModel):
 	username: str
 
-# class UserUpdate(BaseModel):
-#     username: str
-	
 def get_db():
 	db= SessionLocal()
 	try: 
@@ -46,7 +43,7 @@ async def delete_user(user_id: int, db: db_dependency):
     return {"message": "User deleted successfully"}
 
 @app.put('/users/update/{user_id}', status_code=status.HTTP_200_OK)
-async def update_user(user_id: int, user_update: UserUpdate, db: db_dependency):
+async def update_user(user_id: int, user_update: UserBase, db: db_dependency):
     user = db.query(models.User).filter(models.User.id == user_id).first()
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
