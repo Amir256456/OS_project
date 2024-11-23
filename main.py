@@ -48,17 +48,29 @@ async def delete_user(user_id: int, db: db_dependency):
     return {"message": "User deleted successfully"}
 
 @app.put('/users/update/{user_id}', status_code=status.HTTP_200_OK)
-async def update_user(user_id: int, user_update: UserBase, db: AsyncSession = Depends(get_db)):
-    result = await db.execute(
-        select(models.User).where(models.User.id == user_id)
-    )
+async def update_user(
+    user_id: int, 
+    user_update: UserBase, 
+    db: AsyncSession = Depends(get_db)
+):
+    # Retrieve the user from the database
+    query = select(models.User).where(models.User.id == user_id)
+    result = await db.execute(query)
     user = result.scalar_one_or_none()
+
+    # Handle case where user is not found
     if not user:
-        raise HTTPException(status_code=404, detail="User not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found"
+        )
+
+    # Update user details
     user.username = user_update.username
     await db.commit()
     await db.refresh(user)
-    return user
 
+    # Return the updated user
+    return user
 
 
