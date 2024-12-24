@@ -1,11 +1,12 @@
 from pydantic import BaseModel
 from datetime import date
+from app.models import Gender, Icon
 
 class PlayerBase(BaseModel):
     username: str
     name: str
     surname: str | None = None
-    gender: str | None = None
+    gender: Gender
     b_date: date | None = None
     age: int | None = None
     address: str | None = None
@@ -21,7 +22,7 @@ class PlayerOut(BaseModel):
     username: str
     name: str
     surname: str | None = None
-    gender: str | None = None
+    gender: Gender
     b_date: date | None = None
     age: int | None = None
     address: str | None = None
