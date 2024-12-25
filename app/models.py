@@ -28,7 +28,7 @@ class Team(PyEnum):
 
 class GameResult(PyEnum):
     WIN = "WIN"
-    LOSE = "LOSE"  # Corrected capitalization for consistency
+    LOSE = "LOSE"
 
 # Tables
 class Icon(Base):
@@ -39,8 +39,8 @@ class Icon(Base):
 class Achievement(Base):
     __tablename__ = 'achievements'
     achieve_id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String(20), nullable=False)
-    description = Column(String(200))
+    name = Column(String(50), nullable=False)  # Updated to varchar(50) from varchar(20)
+    description = Column(String(255))  # Updated to varchar(255)
 
 class Player(Base):
     __tablename__ = 'player'
@@ -52,7 +52,7 @@ class Player(Base):
     age = Column(Integer)
     address = Column(String(100))
     email = Column(String(50))
-    password = Column(CHAR(32), nullable=False)  # Storing MD5 hash
+    password = Column(CHAR(255), nullable=False)  # Updated length to 255 for hashed password
     icon_id = Column(Integer, ForeignKey('icons.icon_id'))
 
     # Relationships
@@ -60,9 +60,9 @@ class Player(Base):
 
 class Game(Base):
     __tablename__ = 'game'
-    game_id = Column(Integer, primary_key=True, autoincrement=True)
+    match_id = Column(String(50), primary_key=True)  # Updated length to varchar(50)
     status = Column(Enum(GameStatus), nullable=False)
-    game_pass = Column(CHAR(32), nullable=False)  # Storing MD5 hash
+    game_pass = Column(CHAR(32), nullable=True)  # Storing MD5 hash
     game_type = Column(Enum(GameType), nullable=False)
 
 class Achieves(Base):
@@ -77,7 +77,7 @@ class Achieves(Base):
 class Plays(Base):
     __tablename__ = 'plays'
     username = Column(String(20), ForeignKey('player.username'), primary_key=True)
-    game_id = Column(Integer, ForeignKey('game.game_id'), primary_key=True)
+    match_id = Column(String(50), ForeignKey('game.match_id'), primary_key=True)  # Updated length to varchar(50)
     team = Column(Enum(Team), nullable=True)
     role1 = Column(Enum(Role), nullable=True)
     role2 = Column(Enum(Role), nullable=True)
