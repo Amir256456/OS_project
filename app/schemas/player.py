@@ -5,7 +5,7 @@ from app.models import Gender, Icon
 class PlayerBase(BaseModel):
     username: str
     name: str
-    surname: str | None = None
+    surename: str | None = None
     gender: Gender
     b_date: date | None = None
     age: int | None = None
@@ -21,7 +21,7 @@ class Login(BaseModel):
 class PlayerOut(BaseModel):
     username: str
     name: str
-    surname: str | None = None
+    surename: str | None = None
     gender: Gender
     b_date: date | None = None
     age: int | None = None

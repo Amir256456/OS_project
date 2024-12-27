@@ -46,7 +46,7 @@ class Player(Base):
     __tablename__ = 'player'
     username = Column(String(20), primary_key=True)
     name = Column(String(20), nullable=False)
-    surname = Column(String(20))
+    surename = Column(String(20))
     gender = Column(Enum(Gender), nullable=True)
     b_date = Column(Date)
     age = Column(Integer)
@@ -87,3 +87,5 @@ class Plays(Base):
     # Relationships
     player = relationship('Player', backref='games')
     game = relationship('Game', backref='players')
+
+

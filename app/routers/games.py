@@ -186,3 +186,7 @@ async def end_game(request: EndGameRequest, db: Session = Depends(get_db)):
         "message": f"Game {request.match_id} ended. Team {request.team} set to {request.win_or_lose}.",
     }
 
+
+
+
+
